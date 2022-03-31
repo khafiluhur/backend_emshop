@@ -20,7 +20,7 @@
         <main>
             <section class="content-main mt-80 mb-80">
                 <div class="card mx-auto card-login">
-                    <img class="content-main w-50 h-auto" style="background-color: transparent" src="{{url('assets/imgs/Logo_emshop_2022_tanpa_tagline.png')}}" class="logo" alt="Nest Dashboard" />
+                    <img class="content-main w-50 h-auto" style="background-color: transparent" src="{{url('assets/imgs/logo-emshop.png')}}" class="logo" alt="Nest Dashboard" />
                     <div class="card-body">
                         <h4 class="card-title mb-4">Sign in</h4>
                         <form action="{{ url('/') }}" method="POST">

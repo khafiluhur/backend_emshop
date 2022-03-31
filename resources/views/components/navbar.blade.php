@@ -1,7 +1,7 @@
 <aside class="navbar-aside" id="offcanvas_aside">
     <div class="aside-top">
         <a href="{{ url('/admin') }}" class="brand-wrap">
-            <img src="https://emshop.id/media/logo/stores/7/Logo_emshop_2022_tanpa_tagline.png" class="logo" alt="Nest Dashboard" />
+            <img src="{{url('assets/imgs/logo-emshop.png')}}" class="logo" alt="Nest Dashboard" />
         </a>
         <div>
             <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
