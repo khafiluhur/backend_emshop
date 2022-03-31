@@ -197,7 +197,7 @@
                 <div class="card-body">
                     <div class="">
                         <img id="banner-image" src="{{url('assets/imgs/theme/upload.svg')}}" alt="" />
-                        <input id="input-banner" class="form-control" name="image" type="file" />
+                        <input id="input-banner" class="form-control" name="img" type="file" />
                     </div>
                 </div>
             </div>

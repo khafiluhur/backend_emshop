@@ -31,17 +31,17 @@ class Banner extends Controller
         $this->validate($request, [
             'title' => 'required|string|max:255',
             'link' => 'required',
-            'image' => 'required',
+            'img' => 'required',
         ]);
 
-        $banner = 'banner-'.Str::slug($request->title).'.'.$request->image->extension();
-        $request->image->move(public_path('assets/imgs/banners'), $banner);
+        $banner = 'banner-'.Str::slug($request->title).'.'.$request->img->extension();
+        $request->img->move(public_path('assets/imgs/banners'), $banner);
 
         $post = ModelsBanner::create([
             'title' => $request->title,
             'slug' => Str::slug($request->title),
             'link' => $request->link,
-            'image' => $banner,
+            'img' => $banner,
             'status' => 2
         ]);
 

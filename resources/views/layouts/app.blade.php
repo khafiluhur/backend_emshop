@@ -11,7 +11,7 @@
         <meta property="og:url" content="" />
         <meta property="og:image" content="" />
         <!-- Favicon -->
-        <link rel="shortcut icon" type="image/x-icon" href="{{url('assets/imgs/icons/icon_app.png')}}" />
+        <link rel="shortcut icon" type="image/x-icon" href="{{url('assets/imgs/icons/icon-app.png')}}" />
         <!-- Template CSS -->
         <link href="{{url('assets/css/main.css?v=1.1')}}" rel="stylesheet" type="text/css" />
     </head>

@@ -15,6 +15,6 @@ class Category extends Controller
 
         $data = $product;
 
-        return response()->json(['data' => $data]);
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
 }

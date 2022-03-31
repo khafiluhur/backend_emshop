@@ -139,7 +139,7 @@
                         <div class="col-lg-6 col-sm-6 col-12 flex-grow-1 col-name">
                             <a class="itemside" href="#">
                                 <div class="left">
-                                    <img src="{{ url('assets/imgs/banners') }}/{{ $item->image }}" class="img-sm img-thumbnail" alt="Banner" />
+                                    <img src="{{ url('assets/imgs/banners') }}/{{ $item->img }}" class="img-sm img-thumbnail" alt="Banner" />
                                 </div>
                                 <div class="info">
                                     <h6 class="mb-0">{{ $item->title }}</h6>

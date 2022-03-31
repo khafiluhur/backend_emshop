@@ -13,8 +13,6 @@ class Banner extends Controller
 
         $product = ModelsBanner::get();
 
-        $product;
-
-        return response()->json(['data' => $product]);
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $product]);
     }
 }

@@ -41,6 +41,7 @@ class Users extends Controller
             'status' => $request->status,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'isAdmin' => $request->is_admin,
          ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
