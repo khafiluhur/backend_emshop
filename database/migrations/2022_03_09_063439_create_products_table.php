@@ -19,7 +19,6 @@ class CreateProductsTable extends Migration
             $table->string('sku');
             $table->string('slug');
             $table->text('short_desc');
-            $table->text('full_desc');
             $table->string('price');
             $table->string('disc_price');
             $table->string('disc');

@@ -33,10 +33,6 @@
                             <label class="form-label">Short description</label>
                             <textarea placeholder="Short Description"  class="form-control" name="short_desc" rows="4">{{ $product->short_desc }}</textarea>
                         </div>
-                        <div class="mb-4">
-                            <label class="form-label">Full description</label>
-                            <textarea placeholder="Full Description" class="form-control" name="full_desc" rows="4">{{ $product->full_desc }}</textarea>
-                        </div>
                         <div class="row">
                             <div class="col-lg-4">
                                 <div class="mb-4">

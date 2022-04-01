@@ -10,6 +10,6 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','sku','slug','short_desc','full_desc','price','disc_price','disc','status'
+        'name','sku','slug','short_desc','price','disc_price','disc','status'
     ];
 }

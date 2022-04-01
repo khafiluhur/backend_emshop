@@ -29,7 +29,7 @@ class Product extends Controller
                     ->join('product_links', 'products.sku', '=', 'product_links.sku')
                     ->join('categories', 'product_organizations.category', '=', 'categories.id')
                     ->where('products.slug',$id)
-                    ->first(['products.name', 'products.slug', 'product_media.img', 'products.sku', 'products.name', 'products.price', 'products.disc_price', 'categories.name as category', 'categories.slug as slug_category', 'products.disc', 'products.short_desc', 'products.full_desc', 'product_links.aladin_mall', 'product_links.tokopedia', 'product_links.shopee', 'product_links.lazada', 'product_links.blibli', 'product_links.bukalapak']);
+                    ->first(['products.name', 'products.slug', 'product_media.img', 'products.sku', 'products.name', 'products.price', 'products.disc_price', 'categories.name as category', 'categories.slug as slug_category', 'products.disc', 'products.short_desc', 'product_links.aladin_mall', 'product_links.tokopedia', 'product_links.shopee', 'product_links.lazada', 'product_links.blibli', 'product_links.bukalapak']);
 
         $data = [
             "name" => $product->name,
@@ -37,7 +37,6 @@ class Product extends Controller
             "sku" => $product->sku,
             "slug" => $product->slug,
             "short_desc" => $product->short_desc,
-            "full_desc" => $product->full_desc,
             "price" => $product->price,
             "disc_price" => $product->disc_price,
             "disc" => $product->disc,
