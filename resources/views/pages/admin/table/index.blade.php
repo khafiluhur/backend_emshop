@@ -78,7 +78,7 @@
                         <span>{{$item->sku}}</span>
                     </div>
                     <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
-                        <a href="{{ url('/product/edit') }}/{{$item->id}}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
+                        <a href="{{ url('/product/edit') }}/{{$item->name}}" class="btn btn-sm font-sm rounded btn-brand"> <i class="material-icons md-edit"></i> Edit </a>
                         <a href="#" class="btn btn-sm font-sm btn-light rounded"> <i class="material-icons md-delete_forever"></i> Delete </a>
                     </div>
                 </div>

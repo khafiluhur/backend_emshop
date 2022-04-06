@@ -10,6 +10,7 @@ use App\Models\ProductLink;
 use App\Models\ProductMedia;
 use App\Models\ProductOrganization;
 use Illuminate\Http\Request;
+use Illuminate\Support\Env;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -53,6 +54,8 @@ class Product extends Controller
             'exclusive' => 'required'
         ]);
 
+        
+
         $product = ModelsProduct::create([
             'name' => $request->name,
             'sku' => $request->sku,
@@ -64,18 +67,54 @@ class Product extends Controller
             'status' => 2,
         ]);
 
+        if($request->aladin_mall == null) {
+            $aladin_mall = 'aladin';
+        } else {
+            $aladin_mall = $request->aladin_mall;
+        }
+
+        if($request->tokopedia == null) {
+            $tokopedia = 'tokopedia';
+        } else {
+            $tokopedia = $request->tokopedia;
+        }
+
+        if($request->shopee == null) {
+            $shopee = 'shopee';
+        } else {
+            $shopee = $request->shopee;
+        }
+
+        if($request->lazada == null) {
+            $lazada = 'lazada';
+        } else {
+            $lazada = $request->lazada;
+        }
+
+        if($request->blibli == null) {
+            $blibli = 'blibli';
+        } else {
+            $blibli = $request->blibli;
+        }
+
+        if($request->bukalapak == null) {
+            $bukalapak = 'bukalapak';
+        } else {
+            $bukalapak = $request->bukalapak;
+        }
+
         $product_link = ProductLink::create([
             'sku' => $request->sku,
-            'aladin_mall' => $request->aladin_mall,
-            'tokopedia' => $request->tokopedia,
-            'shopee' => $request->shopee,
-            'lazada' => $request->lazada,
-            'blibli' => $request->blibli,
-            'bukalapak' => $request->bukalapak,
+            'aladin_mall' => $aladin_mall,
+            'tokopedia' => $tokopedia,
+            'shopee' => $shopee,
+            'lazada' => $lazada,
+            'blibli' => $blibli,
+            'bukalapak' => $bukalapak,
         ]);
 
         $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
-        $request->file('img')->move(public_path('assets/imgs/products'), $img_product);
+        $request->file('img')->move(env('APP_ASSET').'/assets/imgs/products', $img_product);
 
         $product_media = ProductMedia::create([
             'sku' => $request->sku,
@@ -110,7 +149,7 @@ class Product extends Controller
                    ->join('product_organizations', 'products.sku', '=', 'product_organizations.sku')
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->join('product_links', 'products.sku', '=', 'product_links.sku')
-                   ->where('products.id',$id)
+                   ->where('products.name',$id)
                    ->first();
                    
         $data = [
@@ -121,5 +160,32 @@ class Product extends Controller
             'brand' => Brand::orderBy('name', 'ASC')->get()
         ];
         return view('pages.admin.table.edit', $data);
+    }
+
+    public function update(Request $request, $id) {
+        // $product =  DB::table('products')->where('products.sku',$id)->first();
+        // $product_link = DB::table('product_links')->where('product_links.sku',$id)->first();
+        // $product_media = DB::table('product_media')->where('product_media.sku',$id)->first();
+        // $product_organizations = DB::table('product_organizations')->where('product_organizations.sku',$id)->first();
+
+        // DB::table('products')->where('products.sku', $id)->update([
+        //     'name' => $request->name,
+        //     'sku' => $request->sku,
+        //     'slug' => Str::slug($request->name),
+        //     'short_desc' => $request->short_desc,
+        //     'price' => $request->price,
+        //     'disc_price' => $request->disc_price,
+        //     'disc' => $request->disc,
+        //     'status' => $request->status,
+        // ])
+        // $product = ;
+        // dd($product);
+    }
+
+    public function delete(Request $request, $id) {
+        $product =  ModelsProduct::findOrFail($id);
+        $product_link = ProductLink::findOrFail($id);
+        $product_media = ProductMedia::findOrFail($id);
+        $product_organization = ProductOrganization::findOrFail($id);
     }
 }
