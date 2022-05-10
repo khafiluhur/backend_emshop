@@ -12,7 +12,7 @@ class Banner extends Controller
     //
     public function index() {
         $data = [
-            'title' => 'Banner List',
+            'title' => 'Daftar Banner',
             'slug' => 'banner',
             'banner' => ModelsBanner::latest()->limit(10)->get()
         ];
@@ -21,7 +21,7 @@ class Banner extends Controller
 
     public function create() {
         $data = [
-            'title' => 'Add New Banner',
+            'title' => 'Tambah Banner',
             'slug' => 'banner',
         ];
         return view('pages.admin.table.create', $data);

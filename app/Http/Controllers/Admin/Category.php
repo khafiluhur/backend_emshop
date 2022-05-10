@@ -12,7 +12,7 @@ class Category extends Controller
     //
     public function index() {
         $data = [
-            'title' => 'Category List',
+            'title' => 'Daftar Kategori',
             'slug' => 'category',
             'category' => ModelsCategory::orderBy('name', 'ASC')->get(),
         ];
@@ -21,7 +21,7 @@ class Category extends Controller
 
     public function create() {
         $data = [
-            'title' => 'Add New Category',
+            'title' => 'Tambah Kategori',
         ];
         return view('pages.admin.table.create', $data);
     }
