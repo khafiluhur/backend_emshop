@@ -54,8 +54,6 @@ class Product extends Controller
             'exclusive' => 'required'
         ]);
 
-        
-
         $product = ModelsProduct::create([
             'name' => $request->name,
             'sku' => $request->sku,
@@ -114,7 +112,7 @@ class Product extends Controller
         ]);
 
         $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
-        $request->file('img')->move(env('APP_ASSET').'/assets/imgs/products', $img_product);
+        $request->file('img')->move('assets/imgs/products', $img_product);
 
         $product_media = ProductMedia::create([
             'sku' => $request->sku,
