@@ -4,8 +4,8 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Categories</h2>
-            <p>Add, edit or delete a category</p>
+            <h3 class="content-title card-title">Daftar Kategori</h3>
+            <p>Tambah, ubah atau hapus kategori</p>
         </div>
         <div>
             <input type="text" placeholder="Search Categories" class="form-control bg-white" />
@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Create category</button>
+                            <button type="submit" class="btn btn-primary">+ Tambah Kategori</button>
                         </div>
                     </form>
                 </div>

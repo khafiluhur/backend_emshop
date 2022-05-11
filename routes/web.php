@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/create', [Product::class, 'store'])->name('product.store');
         Route::get('/edit/{id}', [Product::class, 'edit'])->name('product.edit');
         Route::post('/edit/{id}', [Product::class, 'update'])->name('product.update');
+        Route::get('/delete/{id}', [Product::class, 'delete'])->name('product.delete');
     });
     
     Route::prefix('brand')->group(function () {

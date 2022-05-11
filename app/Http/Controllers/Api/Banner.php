@@ -11,7 +11,7 @@ class Banner extends Controller
     //
     public function index() {
 
-        $product = ModelsBanner::get();
+        $product = ModelsBanner::where('status', 2)->get();
 
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $product]);
     }

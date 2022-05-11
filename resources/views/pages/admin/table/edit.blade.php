@@ -30,7 +30,7 @@
                             <input type="number" placeholder="SKU" class="form-control" name="sku" id="sku" value="{{ $product->sku }}" />
                         </div>
                         <div class="mb-4">
-                            <label class="form-label">Short description</label>
+                            <label class="form-label">Description</label>
                             <textarea placeholder="Short Description"  class="form-control" name="short_desc" rows="4">{{ $product->short_desc }}</textarea>
                         </div>
                         <div class="row">
@@ -109,8 +109,8 @@
                     <h4>Images</h4>
                 </div>
                 <div class="card-body">
-                    <div class="">
-                        <img id="image-product" src="{{ url('assets/imgs/products') }}/{{ $product->img }}" alt="" />
+                    <div class="col-12">
+                        <img id="image-product" width="1000" src="{{ url('assets/imgs/products') }}/{{ $product->img }}" alt="" />
                     </div>
                 </div>
             </div>

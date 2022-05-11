@@ -10,6 +10,6 @@ class ProductMedia extends Model
     use HasFactory;
 
     protected $fillable = [
-        'sku','img'
+        'sku','img','code'
     ];
 }

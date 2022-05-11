@@ -18,12 +18,12 @@
             <li class="menu-item has-submenu {{ ($slug == 'product') || ($slug == 'brand') || ($slug == 'category')  ? 'active' : '' }}">
                 <a class="menu-link">
                     <i class="icon material-icons md-shopping_bag"></i>
-                    <span class="text">Products</span>
+                    <span class="text">Produk</span>
                 </a>
                 <div class="submenu">
-                    <a class="{{ ($slug == 'product') ? 'active' : '' }}" href="{{ url('/product') }}">Product</a>
-                    <a class="{{ ($slug == 'brand') ? 'active' : '' }}" href="{{ url('/brand') }}">Brand</a>
-                    <a class="{{ ($slug == 'category') ? 'active' : '' }}" href="{{ url('/category') }}">Categories</a>
+                    <a class="{{ ($slug == 'product') ? 'active' : '' }}" href="{{ url('/product') }}">Produk</a>
+                    <a class="{{ ($slug == 'brand') ? 'active' : '' }}" href="{{ url('/brand') }}">Merek</a>
+                    <a class="{{ ($slug == 'category') ? 'active' : '' }}" href="{{ url('/category') }}">Kategori</a>
                 </div>
             </li>
             <li class="menu-item {{ ($slug == 'banner') ? 'active' : '' }}">
