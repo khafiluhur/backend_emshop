@@ -102,10 +102,10 @@ class Product extends Controller
     public function searchProduct()
     {
         $search = $_GET['search'];
-        // $product = ModelsProduct::where('name', 'like', '%' .$search. '%')->get();
-        // $data = [
-        //     "product" => $product,
-        // ];
-        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $search]);
+        $product = ModelsProduct::where('name', 'like', '%' .$search. '%')->limit(10)->get();
+        $data = [
+            "product" => $product,
+        ];
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
 }
