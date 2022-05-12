@@ -104,7 +104,7 @@ class Product extends Controller
         $search = $_GET['search'];
         $product = ModelsProduct::where('name', 'like', '%' .$search. '%')->limit(10)->get();
         $data = [
-            "product" => $product,
+            "data" => $product,
         ];
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
