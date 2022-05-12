@@ -98,4 +98,14 @@ class Product extends Controller
 
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
+
+    public function searchProduct()
+    {
+        $search = $_GET['search'];
+        // $product = ModelsProduct::where('name', 'like', '%' .$search. '%')->get();
+        // $data = [
+        //     "product" => $product,
+        // ];
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $search]);
+    }
 }
