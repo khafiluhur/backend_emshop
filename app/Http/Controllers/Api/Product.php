@@ -102,7 +102,13 @@ class Product extends Controller
     public function searchProduct()
     {
         $search = $_GET['q'];
-        $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+        $search_list = $_GET['list'];
+        if($search_list == 'all') {
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+        } else {
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+        }
+        
         $data = [
             "data" => $product,
         ];
