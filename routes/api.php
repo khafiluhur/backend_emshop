@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         return auth()->user();
     });
 
-    Route::get('/product/search', [Product::class, 'searchProduct'])->middleware('throttle:60,1');
+    Route::get('/product/search', [Product::class, 'searchProduct']);
 
     Route::get('/product', [Product::class, 'index']);
     Route::get('/product/{id}', [Product::class, 'detail']);

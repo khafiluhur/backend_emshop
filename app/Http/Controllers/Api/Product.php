@@ -18,7 +18,7 @@ class Product extends Controller
             $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
 
-            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->limit($request->number)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('products.status', 2)->orderBy('products.name', 'ASC')->limit($request->number)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status']);
         }
 
         $data = $product;
