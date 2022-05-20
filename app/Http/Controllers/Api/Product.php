@@ -105,9 +105,9 @@ class Product extends Controller
         $search = $_GET['q'];
         $search_list = $_GET['list'];
         if($search_list == 'all') {
-            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('products.status', 2)->where('name', 'like', '%' .$search. '%')->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
-            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('products.status', 2)->where('name', 'like', '%' .$search. '%')->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         }
         
         $data = [
