@@ -63,7 +63,7 @@ class Product extends Controller
     public function category($id) 
     {
         $category = Category::where('slug', $id)->first();
-        $product = ModelsProduct::select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc'  )->join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')->where('product_organizations.category', $category->id)->orWhere('products.status', 2)->get();
+        $product = ModelsProduct::select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc'  )->join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')->where('product_organizations.category', $category->id)->where('products.status', 2)->get();
 
         $data = [
             "name" => $category->name,
@@ -114,5 +114,10 @@ class Product extends Controller
             "data" => $product,
         ];
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
+    }
+
+    public function updateActiveProduct($id)
+    {
+
     }
 }
