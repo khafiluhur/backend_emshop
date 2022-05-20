@@ -87,7 +87,7 @@ class Product extends Controller
         } elseif ($id == "randomItem") {
             $name = "randomItem";
             $id = 0;
-            $product = ModelsProduct::join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')->orWhere('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')->where('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
             return response()->json(['success' => true, 'message' => 'Category data not found']);
         }
@@ -107,7 +107,7 @@ class Product extends Controller
         if($search_list == 'all') {
             $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->orWhere('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
-            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->orWhere('products.status', 2)->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->where('name', 'like', '%' .$search. '%')->limit(10)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         }
         
         $data = [
