@@ -342,7 +342,7 @@ input:checked + .slider:before {
         var xhr = new XMLHttpRequest();
         var url = site+"/api/product/toggle/"+slug+"?status="+active
         xhr.open("GET", url, true);
-        xhr.setRequestHeader("Authorization", "Bearer 7|k6YXsmbnoNXjvVIQerR6Gi5oXqYmGAppDh1byePl");
+        xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA");
         xhr.send();
         location.reload();
     }
