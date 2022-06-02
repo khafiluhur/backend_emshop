@@ -4,7 +4,7 @@
 <section class="content-main">
     <div class="row">
         @if($slug == 'product')
-        <form class="col-lg-12" action="{{ route('product.update',$product->sku) }}" method="POST" enctype="multipart/form-data">
+        <form class="col-lg-12" action="{{ route('product.update',$product->slug) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="col-9">
             <div class="content-header">
