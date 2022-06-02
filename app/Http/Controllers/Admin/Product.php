@@ -23,7 +23,7 @@ class Product extends Controller
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at' )
                    ->orderBy('products.created_at', 'DESC')
-                   ->paginate(15);
+                   ->get();
         // $product = DB::select('select * FROM product')->paginate(15);
         // join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->get(['products.*', 'product_media.img'])
         // dd($product);
@@ -194,7 +194,6 @@ class Product extends Controller
             'price' => $request->price,
             'disc_price' => $request->disc_price,
             'disc' => $request->disc,
-            'status' => $request->status,
             'updated_at' => Carbon::now()
         ]);
 
