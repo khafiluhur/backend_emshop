@@ -118,6 +118,13 @@ class Product extends Controller
 
     public function updateActiveProduct($id)
     {
+        DB::table('products')->where('slug', $id)->update([
+            'status' => $_GET['status'],
+        ]);
 
+        $data = [
+            "message" => "Product has been edit successfully"
+        ];
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
 }

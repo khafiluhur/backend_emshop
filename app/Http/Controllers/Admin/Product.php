@@ -20,13 +20,12 @@ class Product extends Controller
     public function index() {
 
         $product = DB::table('products')
-                   ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at' )
+                   ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->orderBy('products.created_at', 'DESC')
                    ->get();
         // $product = DB::select('select * FROM product')->paginate(15);
         // join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->get(['products.*', 'product_media.img'])
-        // dd($product);
         $data = [
             'title' => 'Daftar Produk',
             'slug' => 'product',
@@ -34,6 +33,7 @@ class Product extends Controller
             'product' => $product
             // Storage::directories(directory);
         ];
+
         return view('pages.admin.table.index', $data);
     }
 
@@ -184,9 +184,16 @@ class Product extends Controller
         return view('pages.admin.table.edit', $data);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id) 
+    {
+        $products = DB::table('products')
+                ->select('*')
+                ->where('products.slug', $id)
+                ->first();
 
-        $product = DB::table('products')->where('sku', $id)->update([
+        $sku = $products->sku;
+        
+        DB::table('products')->where('id', $products->id)->update([
             'name' => $request->name,
             'sku' => $request->sku,
             'slug' => Str::slug($request->name),
@@ -197,7 +204,18 @@ class Product extends Controller
             'updated_at' => Carbon::now()
         ]);
 
-        $product_link = DB::table('product_links')->where('sku', $id)->update([
+        $product_after_updates = DB::table('products')
+                ->select('*')
+                ->where('products.slug', $id)
+                ->first();
+
+        $product_links = DB::table('product_links')
+                ->select('*')
+                ->where('product_links.sku', $sku)
+                ->first();
+
+        DB::table('product_links')->where('id', $product_links->id)->update([
+            'sku' => $request->sku,
             'aladin_mall' => $request->aladin_mall,
             'tokopedia' => $request->tokopedia,
             'shopee' => $request->shopee,
@@ -207,35 +225,42 @@ class Product extends Controller
             'updated_at' => Carbon::now()
         ]);
 
-        $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
-        $request->file('img')->move('/assets/imgs/products', $img_product);
-
-        $product_media = ProductMedia::create([
+        $product_medias = DB::table('product_media')
+                ->select('*')
+                ->where('product_media.sku', $sku)
+                ->first();
+        
+        DB::table('product_media')->where('id', $product_medias->id)->update([
             'sku' => $request->sku,
-            'img' => $img_product,
-            'created_at' => Carbon::now()
         ]);
 
-        $product_organization = DB::table('product_organizations')->where('sku', $id)->update([
+        if($request->file('img') != null) {
+            $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
+            $request->file('img')->move('/assets/imgs/products', $img_product);
+
+            DB::table('product_media')->where('id', $product_medias->id)->update([
+                'img' => $img_product,
+            ]);
+        }
+
+        $product_organizations = DB::table('product_organizations')
+                ->select('*')
+                ->where('product_organizations.sku', $sku)
+                ->first();
+
+        DB::table('product_organizations')->where('sku', $product_organizations->id)->update([
+            'sku' => $request->sku,
             'brand' => $request->brand,
             'category' => $request->category,
             'exclusive' => $request->exclusive,
             'updated_at' => Carbon::now()
         ]);
 
-        if ($product && $product_link && $product_media && $product_organization) {
-            return redirect()
-            ->route('product.index')
-            ->with([
-                'success' => 'New product has been created successfully'
-            ]);
-        } else {
-            return redirect()
-            ->route('product.create')
-            ->with([
-                'error' => 'Some problem occurred, please try again'
-            ]);
-        }
+        return redirect()
+        ->route('product.index')
+        ->with([
+            'success' => 'Product has been edit successfully'
+        ]);
 
     }
 
@@ -260,5 +285,15 @@ class Product extends Controller
             ->with([
                 'success' => 'Product has been created successfully delete'
             ]);
+    }
+
+    public function toggle_active_product($id)
+    {
+        // update(['status'=>'1'])
+        $product = ModelsProduct::where('slug',$id)->get();
+        $data = [
+            "data" => $product,
+        ];
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
 }

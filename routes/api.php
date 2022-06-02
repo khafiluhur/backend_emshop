@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/product/{id}', [Product::class, 'detail']);
     Route::get('/product/category/{id}', [Product::class, 'category']);
     Route::get('/product/exclusive/{id}', [Product::class, 'exclusive']);
+    Route::get('/product/toggle/{id}', [Product::class, 'updateActiveProduct']);
 
     Route::get('/banner', [Banner::class, 'index']);
     Route::get('/page/{id}', [Banner::class, 'index']);

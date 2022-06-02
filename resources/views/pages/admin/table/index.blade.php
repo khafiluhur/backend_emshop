@@ -187,13 +187,19 @@ input:checked + .slider:before {
                             <span class="text-decoration-line-through">Rp. {{$item->disc_price}}</span>
                             <span class="text-danger fw-bold">-{{$item->disc}}%</span>
                         </p>
-                        
                     </div>
                     <div class="col-lg-3 col-sm-4 col-8 col-status text-center">
+                        @if($item->status == 1)
                         <label class="switch">
-                            <input type="checkbox">
+                            <input type="checkbox" id="toggle" onclick="toggleCheckbox()" data-value="{{{$item->slug}}}">
                             <span class="slider round"></span>
-                          </label>
+                        </label>
+                        @else
+                        <label class="switch">
+                            <input type="checkbox" id="toggle" onclick="toggleCheckbox()" data-value="{{{$item->slug}}}" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        @endif
                     </div>
                     <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
                         <div class="dropdown">
@@ -314,5 +320,32 @@ input:checked + .slider:before {
     </div> --}}
     @endif
 </section>
+<script>
+    function toggleCheckbox()
+    {
+        var checkBox = document.getElementById("toggle")
+        var slug = $("input#toggle").data().value
+        var status = ''
+        if (checkBox.checked == true){
+            status = 2
+            toggleStatus(slug, status)
+        } else {
+            status = 1
+            toggleStatus(slug, status)
+        }
+    }
+    
+    function toggleStatus(slug, status)
+    {
+        var active = status
+        var site = "{{url('')}}"
+        var xhr = new XMLHttpRequest();
+        var url = site+"/api/product/toggle/"+slug+"?status="+active
+        xhr.open("GET", url, true);
+        xhr.setRequestHeader("Authorization", "Bearer 7|k6YXsmbnoNXjvVIQerR6Gi5oXqYmGAppDh1byePl");
+        xhr.send();
+        location.reload();
+    }
+</script>
 <!-- content-main end// -->
 @endsection
