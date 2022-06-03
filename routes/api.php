@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/product/category/{id}', [Product::class, 'category']);
     Route::get('/product/exclusive/{id}', [Product::class, 'exclusive']);
     Route::get('/product/toggle/{id}', [Product::class, 'updateActiveProduct']);
+    Route::get('/product/click/{id}', [Product::class, 'countEcommerceProduct']);
 
     Route::get('/banner', [Banner::class, 'index']);
     Route::get('/page/{id}', [Banner::class, 'index']);

@@ -127,4 +127,31 @@ class Product extends Controller
         ];
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
+
+    public function countEcommerceProduct($id)
+    {
+        $checkCount = DB::table('product_view')->where('slug', $id)->first();
+        if($checkCount == null) {
+            DB::table('product_view')->insert([
+                'slug' => $id, 
+                'aladin_mall' => '0', 
+                'tokopedia' => '0', 
+                'shopee' => '0', 
+                'lazada' => '0', 
+                'blibli' => '0', 
+                'bukalapak' => '0'
+            ]);
+        } 
+        $eco = $_GET['eco'];
+
+        DB::table('product_view')->where('slug', $id)->update([
+            $_GET['eco'] => $checkCount->$eco + 1,
+        ]);
+        
+        $data = [
+            "message" => "Product has been successfully"
+        ];
+
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
+    }
 }
