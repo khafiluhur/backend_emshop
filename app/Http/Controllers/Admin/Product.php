@@ -165,15 +165,15 @@ class Product extends Controller
         }
     }
 
-    public function edit($id) {
-
+    public function edit($id) 
+    {
         $product = DB::table('products')
-                   ->join('product_organizations', 'products.sku', '=', 'product_organizations.sku')
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->join('product_links', 'products.sku', '=', 'product_links.sku')
+                   ->join('product_organizations', 'products.sku', '=', 'product_organizations.sku')
                    ->where('products.slug',$id)
                    ->first();
-                   
+
         $data = [
             'title' => 'Edit Product',
             'slug' => 'product',
@@ -203,11 +203,6 @@ class Product extends Controller
             'disc' => $request->disc,
             'updated_at' => Carbon::now()
         ]);
-
-        $product_after_updates = DB::table('products')
-                ->select('*')
-                ->where('products.slug', $id)
-                ->first();
 
         $product_links = DB::table('product_links')
                 ->select('*')
@@ -247,8 +242,9 @@ class Product extends Controller
                 ->select('*')
                 ->where('product_organizations.sku', $sku)
                 ->first();
+    
 
-        DB::table('product_organizations')->where('sku', $product_organizations->id)->update([
+        DB::table('product_organizations')->where('id', $product_organizations->id)->update([
             'sku' => $request->sku,
             'brand' => $request->brand,
             'category' => $request->category,

@@ -182,11 +182,15 @@ input:checked + .slider:before {
                         </a>
                     </div>
                     <div class="col-lg-2 col-sm-2 col-4 col-price">
+                        @if($item->price != '0' && $item->disc != '0')
                         <p class="mb-0 fw-bold">Rp. {{$item->price}}</p>
                         <p class="mb-0">
                             <span class="text-decoration-line-through">Rp. {{$item->disc_price}}</span>
                             <span class="text-danger fw-bold">-{{$item->disc}}%</span>
                         </p>
+                        @else
+                        <p class="mb-0 fw-bold">Rp. {{$item->disc_price}}</p>
+                        @endif
                     </div>
                     <div class="col-lg-3 col-sm-4 col-8 col-status text-center">
                         @if($item->status == 1)
@@ -346,6 +350,7 @@ input:checked + .slider:before {
         xhr.open("GET", url, true)
         xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA")
         xhr.send()
+
     }
 </script>
 <!-- content-main end// -->
