@@ -162,7 +162,7 @@ input:checked + .slider:before {
         </div>
         <!-- card-header end// -->
         <div class="card-body">
-            @foreach ($product as $item)
+            @foreach ($product as $key => $item)
             <article class="itemlist">
                 <div class="row align-items-center">
                     <div class="col col-check flex-grow-0">
@@ -191,12 +191,12 @@ input:checked + .slider:before {
                     <div class="col-lg-3 col-sm-4 col-8 col-status text-center">
                         @if($item->status == 1)
                         <label class="switch">
-                            <input type="checkbox" id="toggle" onclick="toggleCheckbox()" data-value="{{{$item->slug}}}">
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item->slug}}}" data-active="1">
                             <span class="slider round"></span>
                         </label>
                         @else
                         <label class="switch">
-                            <input type="checkbox" id="toggle" onclick="toggleCheckbox()" data-value="{{{$item->slug}}}" checked>
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item->slug}}}" data-active="2" checked>
                             <span class="slider round"></span>
                         </label>
                         @endif
@@ -321,12 +321,14 @@ input:checked + .slider:before {
     @endif
 </section>
 <script>
-    function toggleCheckbox()
+    function toggleCheckbox(key)
     {
-        var checkBox = document.getElementById("toggle")
-        var slug = $("input#toggle").data().value
+        var checkBox = document.getElementsByClassName("toggle")
+        var parseHtml = Array.from(checkBox)
+        var slug = parseHtml[key].dataset.value
+        var active = parseHtml[key].dataset.active
         var status = ''
-        if (checkBox.checked == true){
+        if (active == 1){
             status = 2
             toggleStatus(slug, status)
         } else {
@@ -339,12 +341,11 @@ input:checked + .slider:before {
     {
         var active = status
         var site = "{{url('')}}"
-        var xhr = new XMLHttpRequest();
+        var xhr = new XMLHttpRequest()
         var url = site+"/api/product/toggle/"+slug+"?status="+active
-        xhr.open("GET", url, true);
-        xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA");
-        xhr.send();
-        location.reload();
+        xhr.open("GET", url, true)
+        xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA")
+        xhr.send()
     }
 </script>
 <!-- content-main end// -->
