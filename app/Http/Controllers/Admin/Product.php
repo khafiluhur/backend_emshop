@@ -20,18 +20,17 @@ class Product extends Controller
     public function index() {
 
         $product = DB::table('products')
-                   ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at' )
+                   ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at', 'product_view.*' )
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
+                   ->leftJoin('product_view', 'products.slug', '=', 'product_view.slug')
                    ->orderBy('products.created_at', 'DESC')
                    ->get();
-        // $product = DB::select('select * FROM product')->paginate(15);
-        // join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->get(['products.*', 'product_media.img'])
+
         $data = [
             'title' => 'Daftar Produk',
             'slug' => 'product',
             'category' => Category::orderBy('created_at', 'DESC')->get(),
             'product' => $product
-            // Storage::directories(directory);
         ];
 
         return view('pages.admin.table.index', $data);
@@ -285,7 +284,6 @@ class Product extends Controller
 
     public function toggle_active_product($id)
     {
-        // update(['status'=>'1'])
         $product = ModelsProduct::where('slug',$id)->get();
         $data = [
             "data" => $product,
