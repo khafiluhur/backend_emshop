@@ -59,4 +59,13 @@ class Banner extends Controller
             ]);
         }
     }
+
+    public function toggle_active_product($id)
+    {
+        $product = ModelsBanner::where('slug',$id)->get();
+        $data = [
+            "data" => $product,
+        ];
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
+    }
 }

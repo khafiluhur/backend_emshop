@@ -19,18 +19,44 @@ class Product extends Controller
     //
     public function index() {
 
-        $product = DB::table('products')
+        $items = [];
+        $products = DB::table('products')
                    ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at', 'product_view.*' )
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->leftJoin('product_view', 'products.slug', '=', 'product_view.slug')
                    ->orderBy('products.created_at', 'DESC')
                    ->get();
 
+        foreach($products as $key => $product) {
+            $items[$key] = array(
+                "img" => $products[$key]->img,
+                "name" => $products[$key]->name,
+                "price" => $products[$key]->price,
+                "disc_price" => $products[$key]->disc_price,
+                "disc" => $products[$key]->disc,
+                "status" => $products[$key]->status,
+                "sku" => $products[$key]->sku,
+                "slug" => $products[$key]->slug,
+                "id" => $products[$key]->id,
+                "aladin_mall" => $products[$key]->aladin_mall,
+                "tokopedia" => $products[$key]->tokopedia,
+                "shopee" => $products[$key]->shopee,
+                "lazada" => $products[$key]->lazada,
+                "blibli" => $products[$key]->blibli,
+                "bukalapak" => $products[$key]->bukalapak,
+                "total_view" => $products[$key]->aladin_mall + $products[$key]->tokopedia + $products[$key]->shopee + $products[$key]->lazada + $products[$key]->blibli + $products[$key]->bukalapak,
+                "created_at" => $products[$key]->created_at,
+                "updated_at" => $products[$key]->updated_at,
+            );
+        }
+        
+        // dd($items);
+
         $data = [
             'title' => 'Daftar Produk',
             'slug' => 'product',
             'category' => Category::orderBy('created_at', 'DESC')->get(),
-            'product' => $product
+            'product' => $items
         ];
 
         return view('pages.admin.table.index', $data);
@@ -280,14 +306,5 @@ class Product extends Controller
             ->with([
                 'success' => 'Product has been created successfully delete'
             ]);
-    }
-
-    public function toggle_active_product($id)
-    {
-        $product = ModelsProduct::where('slug',$id)->get();
-        $data = [
-            "data" => $product,
-        ];
-        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
     }
 }

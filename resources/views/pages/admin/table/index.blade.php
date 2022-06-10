@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 <style>
     .form-control, .form-select {
         border-radius: 8px
@@ -90,6 +91,36 @@ input:checked + .slider:before {
 .form-custome-select {
     border-color: #606060;
 }
+
+.tooltip1 .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: white;
+  box-shadow: 0 1px 6px 0 var(--color-shadow,rgba(49,53,59,0.12));
+  color: black;
+  text-align: center;
+  border-radius: 6px;
+  padding: 2px 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip1 .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}
+.tooltip1:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
 @endsection
 
@@ -136,25 +167,21 @@ input:checked + .slider:before {
         <div class="card-body">
             <article class="itemlist">
                 <div class="row align-items-center">
-                    <div class="col col-check flex-grow-0">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+                    <div class="col-lg-4 flex-grow-1 col-name">
                         <a class="itemside">
-                            <div class="left">
-                            </div>
                             <div class="info">
                                 <h6 class="mb-0">INFO PRODUK</h6>
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-2 col-sm-2 col-4 col-price"><h6>HARGA</h6></div>
-                    <div class="col-lg-3 col-sm-4 col-8 col-status text-center">
+                    <div class="col-lg-2 col-price"><h6>HARGA</h6></div>
+                    <div class="col-lg-2 col-status text-center">
+                        <h6>STATISTIK</h6>
+                    </div>
+                    <div class="col-lg-2 col-status text-center">
                         <h6>STATUS</h6>
                     </div>
-                    <div class="col-lg-2 col-sm-2 col-4 col-action text-end text-center">
+                    <div class="col-lg-2 col-action text-end text-center">
                        <h6></h6>
                     </div>
                 </div>
@@ -165,54 +192,63 @@ input:checked + .slider:before {
             @foreach ($product as $key => $item)
             <article class="itemlist">
                 <div class="row align-items-center">
-                    <div class="col col-check flex-grow-0">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
+                    <div class="col-lg-4 flex-grow-1 col-name">
                         <a class="itemside">
                             <div class="left">
-                                <img src="{{ url('assets/imgs/products') }}/{{ $item->img }}" class="img-sm img-thumbnail" alt="Item" />
+                                <img src="{{ url('assets/imgs/products') }}/{{ $item['img'] }}" class="img-sm img-thumbnail" alt="Item" />
                             </div>
                             <div class="info">
-                                <h6 class="mb-0">{{$item->name}}</h6>
-                                <p>SKU: {{$item->sku}}</p>
+                                <h6 class="mb-0">{{$item['name']}}</h6>
+                                <p>SKU: {{$item['sku']}}</p>
                             </div>
                         </a>
                     </div>
-                    <div class="col-lg-2 col-sm-2 col-4 col-price">
-                        @if($item->price != '0' && $item->disc != '0')
-                        <p class="mb-0 fw-bold">Rp. {{$item->price}}</p>
+                    <div class="col-lg-2 col-price">
+                        @if($item['price'] != '0' && $item['disc'] != '0')
+                        <p class="mb-0 fw-bold">Rp. {{$item['price']}}</p>
                         <p class="mb-0">
-                            <span class="text-decoration-line-through">Rp. {{$item->disc_price}}</span>
-                            <span class="text-danger fw-bold">-{{$item->disc}}%</span>
+                            <span class="text-decoration-line-through">Rp. {{$item['disc_price']}}</span>
+                            <span class="text-danger fw-bold">-{{$item['disc']}}%</span>
                         </p>
                         @else
-                        <p class="mb-0 fw-bold">Rp. {{$item->disc_price}}</p>
+                        <p class="mb-0 fw-bold">Rp. {{$item['disc_price']}}</p>
                         @endif
                     </div>
-                    <div class="col-lg-3 col-sm-4 col-8 col-status text-center">
-                        @if($item->status == 1)
+                    <div class="col-lg-2 col-status text-center">
+                        <label class="tooltip1">
+                            <span class="material-symbols-outlined">visibility</span>
+                            <span class="position-absolute ml-2">{{$item['total_view']}}</span>
+                            <span class="tooltiptext text-start">
+                                <p style="margin-bottom: 0 !important">Aladin Mall : @if($item['aladin_mall'] != null ){{$item['aladin_mall']}}@else 0 @endif</p>
+                                <p style="margin-bottom: 0 !important">Tokopedia : @if($item['tokopedia'] != null ){{$item['tokopedia']}}@else 0 @endif</p>
+                                <p style="margin-bottom: 0 !important">Shopee : @if($item['shopee'] != null ){{$item['shopee']}}@else 0 @endif</p>
+                                <p style="margin-bottom: 0 !important">Lazada : @if($item['lazada'] != null ){{$item['lazada']}}@else 0 @endif</p>
+                                <p style="margin-bottom: 0 !important">Blibli : @if($item['blibli'] != null ){{$item['blibli']}}@else 0 @endif</p>
+                                <p style="margin-bottom: 0 !important">Bukalapak : @if($item['bukalapak'] != null ){{$item['bukalapak']}}@else 0 @endif</p>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="col-lg-2 col-status text-center">
+                        @if($item['status'] == 1)
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item->slug}}}" data-active="1">
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="1">
                             <span class="slider round"></span>
                         </label>
                         @else
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item->slug}}}" data-active="2" checked>
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="2" checked>
                             <span class="slider round"></span>
                         </label>
                         @endif
                     </div>
-                    <div class="col-lg-2 col-sm-2 col-4 col-action text-end">
+                    <div class="col-lg-2 col-action text-end">
                         <div class="dropdown">
                             <button class="btn btn-custome-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Atur
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="{{ url('/product/edit') }}/{{$item->slug}}">Edit</a>
-                              <a class="dropdown-item" href="{{ url('/delete') }}/{{$item->slug}}">Hapus</a>
+                              <a class="dropdown-item" href="{{ url('/product/edit') }}/{{$item['slug']}}">Edit</a>
+                              <a class="dropdown-item" href="{{ url('/delete') }}/{{$item['slug']}}">Hapus</a>
                             </div>
                           </div>
                     </div>
