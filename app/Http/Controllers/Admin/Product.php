@@ -21,7 +21,7 @@ class Product extends Controller
 
         $items = [];
         $products = DB::table('products')
-                   ->select('product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at', 'product_view.aladin_mall', 'product_view.tokopedia', 'product_view.shopee', 'product_view.lazada', 'product_view.blibli', 'product_view.bukalapak' )
+                   ->select('product_media.id', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at', 'products.updated_at', 'product_view.aladin_mall', 'product_view.tokopedia', 'product_view.shopee', 'product_view.lazada', 'product_view.blibli', 'product_view.bukalapak' )
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->leftJoin('product_view', 'products.slug', '=', 'product_view.slug')
                    ->orderBy('products.created_at', 'DESC')
