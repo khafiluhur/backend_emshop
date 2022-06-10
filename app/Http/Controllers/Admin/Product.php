@@ -254,7 +254,7 @@ class Product extends Controller
 
         if($request->file('img') != null) {
             $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
-            $request->file('img')->move('/assets/imgs/products', $img_product);
+            $request->file('img')->move('assets/imgs/products', $img_product);
 
             DB::table('product_media')->where('id', $product_medias->id)->update([
                 'img' => $img_product,
