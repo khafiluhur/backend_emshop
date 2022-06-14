@@ -108,19 +108,26 @@
         request.open('GET', url, true)
         request.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA")
         request.onload = function () {
-            // console.log(this.response);
         // Begin accessing JSON data here
         var data = JSON.parse(this.response)
         if (request.status >= 200 && request.status < 400) {
-            document.getElementById("aladin").textContent=data.data.data['aladin_mall'];
-            document.getElementById("tokopedia").textContent=data.data.data['tokopedia'];
-            document.getElementById("shopee").textContent=data.data.data['shopee'];
-            document.getElementById("lazada").textContent=data.data.data['lazada'];
-            document.getElementById("blibli").textContent=data.data.data['blibli'];
-            document.getElementById("bukalapak").textContent=data.data.data['bukalapak'];
-            // console.log(data.data.data)
+            if(data.data.data != null) {
+                document.getElementById("aladin").textContent=data.data.data['aladin_mall'];
+                document.getElementById("tokopedia").textContent=data.data.data['tokopedia'];
+                document.getElementById("shopee").textContent=data.data.data['shopee'];
+                document.getElementById("lazada").textContent=data.data.data['lazada'];
+                document.getElementById("blibli").textContent=data.data.data['blibli'];
+                document.getElementById("bukalapak").textContent=data.data.data['bukalapak'];
+            } else {
+                document.getElementById("aladin").textContent=0;
+                document.getElementById("tokopedia").textContent=0;
+                document.getElementById("shopee").textContent=0;
+                document.getElementById("lazada").textContent=0;
+                document.getElementById("blibli").textContent=0;
+                document.getElementById("bukalapak").textContent=0;
+            }
         } else {
-            // console.log('error')
+            console.log('error')
         }
         }
 
