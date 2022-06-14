@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Category;
 use App\Http\Controllers\Admin\Dashboard;
 use App\Http\Controllers\Admin\Product;
 use App\Http\Controllers\Admin\User;
+use App\Http\Controllers\Admin\Report;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,6 +49,12 @@ Route::middleware(['auth'])->group(function () {
     
     Route::prefix('banner')->group(function () {
         Route::get('/', [Banner::class, 'index'])->name('banner.index');
+        Route::get('/create', [Banner::class, 'create'])->name('banner.create');
+        Route::post('/create', [Banner::class, 'store'])->name('banner.store');
+    });
+
+    Route::prefix('report')->group(function () {
+        Route::get('/', [Report::class, 'index'])->name('report.index');
         Route::get('/create', [Banner::class, 'create'])->name('banner.create');
         Route::post('/create', [Banner::class, 'store'])->name('banner.store');
     });

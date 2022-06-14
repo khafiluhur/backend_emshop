@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product as ModelsProduct;
@@ -141,7 +142,9 @@ class Product extends Controller
                     'shopee' => '0', 
                     'lazada' => '0', 
                     'blibli' => '0', 
-                    'bukalapak' => '0'
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             } elseif($eco == 'tokopedia') {
                 DB::table('product_view')->insert([
@@ -151,7 +154,9 @@ class Product extends Controller
                     'shopee' => '0', 
                     'lazada' => '0', 
                     'blibli' => '0', 
-                    'bukalapak' => '0'
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             } elseif($eco == 'shopee') {
                 DB::table('product_view')->insert([
@@ -161,7 +166,9 @@ class Product extends Controller
                     'shopee' => '1', 
                     'lazada' => '0', 
                     'blibli' => '0', 
-                    'bukalapak' => '0'
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             } elseif($eco == 'lazada') {
                 DB::table('product_view')->insert([
@@ -171,7 +178,9 @@ class Product extends Controller
                     'shopee' => '0', 
                     'lazada' => '1', 
                     'blibli' => '0', 
-                    'bukalapak' => '0'
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]); 
             } elseif($eco == 'blibli') {
                 DB::table('product_view')->insert([
@@ -181,7 +190,9 @@ class Product extends Controller
                     'shopee' => '0', 
                     'lazada' => '0', 
                     'blibli' => '1', 
-                    'bukalapak' => '0'
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             } else {
                 DB::table('product_view')->insert([
@@ -191,17 +202,44 @@ class Product extends Controller
                     'shopee' => '0', 
                     'lazada' => '0', 
                     'blibli' => '0', 
-                    'bukalapak' => '1'
+                    'bukalapak' => '1',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
             }
         } else {
             DB::table('product_view')->where('slug', $id)->update([
                 $_GET['eco'] => $checkCount->$eco + 1,
+                'updated_at' => Carbon::now(),
             ]);
         }
         
         $data = [
             "message" => "Product has been successfully",
+        ];
+
+        return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
+    }
+
+    public function viewEcommerceProduct($id)
+    {
+        $count = [];
+        if($id == 'all-product') {
+            $checkCount = DB::table('product_view')->get();
+            foreach($checkCount as $key => $viewCount) {
+                $count_aladin[$key] = $checkCount[$key]->aladin_mall;
+                $count_tokopedia[$key] = $checkCount[$key]->tokopedia;
+                $count_shopee[$key] = $checkCount[$key]->shopee;
+                $count_lazada[$key] = $checkCount[$key]->lazada;
+                $count_blibli[$key] = $checkCount[$key]->blibli;
+                $count_bukalapak[$key] = $checkCount[$key]->bukalapak;
+            }
+            $count = array('aladin_mall' => array_sum($count_aladin), 'tokopedia' => array_sum($count_aladin), 'tokopedia' => array_sum($count_tokopedia), 'shopee' => array_sum($count_shopee), 'lazada' => array_sum($count_lazada), 'blibli' => array_sum($count_blibli), 'bukalapak' => array_sum($count_bukalapak));
+        } else {
+            $count = DB::table('product_view')->select('aladin_mall', 'tokopedia', 'shopee', 'lazada', 'blibli', 'bukalapak')->where('slug', $id)->first();
+        }
+        $data = [
+            "data" => $count,
         ];
 
         return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);

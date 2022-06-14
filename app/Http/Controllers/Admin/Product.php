@@ -155,7 +155,6 @@ class Product extends Controller
             'created_at' => Carbon::now()
         ]);
 
-        // foreach( $request->file('img') )
         $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
         $request->file('img')->move('assets/imgs/products', $img_product);
 

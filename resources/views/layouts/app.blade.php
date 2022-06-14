@@ -21,6 +21,26 @@
             .table > :not(:last-child) > :last-child > * {
                 border-bottom-color: darkgrey;
             }
+            .dropdown-menu {
+                right: 0 !important;
+                left: unset !important;
+            }
+            footer.main-footer {
+                bottom: unset !important;
+            }
+            .menu-link {
+                text-decoration: unset !important;
+            }
+            .submenu a:hover {
+                color: #3BB77E !important;
+                text-decoration: unset !important;
+            }
+            .submenu > .text {
+                font-size: 14px
+            }
+            .dropdown-toggle::after {
+                margin-left: 0.255em !important;
+            }
         </style>
         @yield('css')
     </head>

@@ -21,15 +21,21 @@
                     <span class="text">Produk</span>
                 </a>
                 <div class="submenu">
-                    <a class="{{ ($slug == 'product') ? 'active' : '' }}" href="{{ url('/product') }}">Produk</a>
-                    <a class="{{ ($slug == 'brand') ? 'active' : '' }}" href="{{ url('/brand') }}">Merek</a>
-                    <a class="{{ ($slug == 'category') ? 'active' : '' }}" href="{{ url('/category') }}">Kategori</a>
+                    <a class="text {{ ($slug == 'product') ? 'active' : '' }}" href="{{ url('/product') }}">Produk</a>
+                    <a class="text {{ ($slug == 'brand') ? 'active' : '' }}" href="{{ url('/brand') }}">Merek</a>
+                    <a class="text {{ ($slug == 'category') ? 'active' : '' }}" href="{{ url('/category') }}">Kategori</a>
                 </div>
             </li>
             <li class="menu-item {{ ($slug == 'banner') ? 'active' : '' }}">
                 <a class="menu-link" href="{{ url('/banner') }}">
                     <i class="icon material-icons md-image"></i>
                     <span class="text">Banner</span>
+                </a>
+            </li>
+            <li class="menu-item {{ ($slug == 'report') ? 'active' : '' }}">
+                <a class="menu-link" href="{{ url('/report') }}">
+                    <i class="icon material-icons md-image"></i>
+                    <span class="text">Report</span>
                 </a>
             </li>
         </ul>

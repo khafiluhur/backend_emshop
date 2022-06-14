@@ -26,15 +26,20 @@
                         <form action="{{ url('/') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <input class="form-control" placeholder="Email" name="email" type="text" />
+                                <input class="form-control" placeholder="Email" name="email" type="email" value="{{old('email')}}"/>
+                                @if ($errors->has('email'))
+                                    <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
                             </div>
                             <!-- form-group// -->
                             <div class="mb-3">
-                                <input class="form-control" placeholder="Password" name="password" type="password" />
+                                <input class="form-control" placeholder="Password" name="password" type="password"/>
+                                @if ($errors->has('password'))
+                                    <span class="text-danger">{{ $errors->first('password') }}</span>
+                                @endif
                             </div>
                             <!-- form-group// -->
                             <div class="mb-3">
-                                <a href="#" class="float-end font-sm text-muted">Forgot password?</a>
                                 <label class="form-check">
                                     <input type="checkbox" class="form-check-input" checked="" />
                                     <span class="form-check-label">Remember</span>
