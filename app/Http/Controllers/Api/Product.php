@@ -146,8 +146,30 @@ class Product extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '1', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             } elseif($eco == 'tokopedia') {
                 DB::table('product_view')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '1', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                DB::table('product_click')->insert([
                     'slug' => $id, 
                     'aladin_mall' => '0', 
                     'tokopedia' => '1', 
@@ -170,6 +192,17 @@ class Product extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '1', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             } elseif($eco == 'lazada') {
                 DB::table('product_view')->insert([
                     'slug' => $id, 
@@ -182,8 +215,30 @@ class Product extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]); 
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '1', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             } elseif($eco == 'blibli') {
                 DB::table('product_view')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '1', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+                DB::table('product_click')->insert([
                     'slug' => $id, 
                     'aladin_mall' => '0', 
                     'tokopedia' => '0', 
@@ -206,12 +261,96 @@ class Product extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '1',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
             }
         } else {
             DB::table('product_view')->where('slug', $id)->update([
                 $_GET['eco'] => $checkCount->$eco + 1,
                 'updated_at' => Carbon::now(),
             ]);
+            if($eco == 'aladin_mall') {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '1', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            } elseif($eco == 'tokopedia') {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '1', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            } elseif($eco == 'shopee') {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '1', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            } elseif($eco == 'lazada') {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '1', 
+                    'blibli' => '0', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]); 
+            } elseif($eco == 'blibli') {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '1', 
+                    'bukalapak' => '0',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            } else {
+                DB::table('product_click')->insert([
+                    'slug' => $id, 
+                    'aladin_mall' => '0', 
+                    'tokopedia' => '0', 
+                    'shopee' => '0', 
+                    'lazada' => '0', 
+                    'blibli' => '0', 
+                    'bukalapak' => '1',
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
         }
         
         $data = [
