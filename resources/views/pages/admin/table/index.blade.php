@@ -195,7 +195,7 @@ input:checked + .slider:before {
                     <div class="col-lg-4 flex-grow-1 col-name">
                         <a class="itemside">
                             <div class="left">
-                                <img src="{{ url('assets/imgs/products') }}/{{ $item['img'] }}" class="img-sm img-thumbnail" alt="Item" />
+                                <img src="{{ url('assets/imgs/products') }}/{{ $item['img'] }}" class="img-sm img-thumbnail" style="padding: 0" alt="Item" />
                             </div>
                             <div class="info">
                                 <h6 class="mb-0">{{$item['name']}}</h6>
@@ -231,12 +231,12 @@ input:checked + .slider:before {
                     <div class="col-lg-2 col-status text-center">
                         @if($item['status'] == 1)
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="1">
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}}, {{ env('CODE', 'default') }})" data-value="{{{$item['slug']}}}" data-active="1">
                             <span class="slider round"></span>
                         </label>
                         @else
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="2" checked>
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}}, {{ env('CODE', 'default') }})" data-value="{{{$item['slug']}}}" data-active="2" checked>
                             <span class="slider round"></span>
                         </label>
                         @endif
@@ -363,6 +363,7 @@ input:checked + .slider:before {
 <script>
     function toggleCheckbox(key)
     {
+     
         var checkBox = document.getElementsByClassName("toggle")
         var parseHtml = Array.from(checkBox)
         var slug = parseHtml[key].dataset.value

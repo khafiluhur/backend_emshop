@@ -96,7 +96,7 @@
                         </div>
                         <div class="row mb-2">
                             <div class="col-4">
-                                <p class="fw-bolder">Merek <span class="badge bg-light">Wajib</span></p>
+                                <p class="fw-bolder">Exclusive <span class="badge bg-light">Wajib</span></p>
                                 <p>Tambah keterangan secara rinci supaya produkmu makin mudah dikenali pembeli.</p>
                             </div>
                             <div class="col-8">
@@ -127,24 +127,23 @@
                             </div>
                             <div class="col-8">
                                 <textarea class="form-control" name="short_desc" rows="13" placeholder="Sepatu Sneakers Pria Tokostore Kanvas Hitam Seri C28B
+                                - Model simple
+                                - Nyaman Digunakan
+                                - Tersedia warna hitam
+                                - Sole PVC (injection shoes) yang nyaman dan awet untuk digunakan sehari - hari
                                 
-- Model simple
-- Nyaman Digunakan
-- Tersedia warna hitam
-- Sole PVC (injection shoes) yang nyaman dan awet untuk digunakan sehari - hari
+                                Bahan:
+                                Upper: Semi Leather (kulit tidak pecah-pecah)
+                                Sole: Premium Rubber Sole
                                 
-Bahan:
-Upper: Semi Leather (kulit tidak pecah-pecah)
-Sole: Premium Rubber Sole
+                                Ukuran
+                                39 : 25,5 cm
+                                40 : 26 cm
+                                41 : 26.5 cm
+                                42 : 27 cm
+                                43 : 27.5 - 28 cm
                                 
-Ukuran
-39 : 25,5 cm
-40 : 26 cm
-41 : 26.5 cm
-42 : 27 cm
-43 : 27.5 - 28 cm
-                                
-Edisi terbatas dari Tokostore dengan model baru dan trendy untukmu. Didesain untuk bisa dipakai dalam berbagai acara. Sangat nyaman saat dipakai sehingga dapat menunjang penampilan dan kepercayaan dirimu. Beli sekarang sebelum kehabisan!"></textarea>
+                                Edisi terbatas dari Tokostore dengan model baru dan trendy untukmu. Didesain untuk bisa dipakai dalam berbagai acara. Sangat nyaman saat dipakai sehingga dapat menunjang penampilan dan kepercayaan dirimu. Beli sekarang sebelum kehabisan!"></textarea>
                             </div>
                         </div>
                 </div>
@@ -345,6 +344,13 @@ Edisi terbatas dari Tokostore dengan model baru dan trendy untukmu. Didesain unt
 
 @section('js')
 @if ($slug == "product")
+<script src="https://cdn.tiny.cloud/1/9wbq65wjxp5llidr4th4834q4q2qlsplbphrqdi7l08ey60t/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: 'textarea',
+        plugins: 'link media',
+    });
+</script>
 <script type="text/javascript">
 		
     var rupiah = document.getElementById('rupiah_price');

@@ -79,15 +79,27 @@ class Product extends Controller
         if($id == "bestSeller") {
             $name = "bestSeller";
             $id = 1;
-            $product = ModelsProduct::join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')-> where('product_organizations.exclusive', $id)->orWhere('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
+                                ->join('product_media','products.sku','=','product_media.sku')
+                                ->where('product_organizations.exclusive','=',$id)
+                                ->where('products.status','=',2)
+                                ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "newItem") {
             $name = "newItem";
             $id = 2;
-            $product = ModelsProduct::join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')-> where('product_organizations.exclusive', $id)->orWhere('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
+                                ->join('product_media','products.sku','=','product_media.sku')
+                                ->where('product_organizations.exclusive','=',$id)
+                                ->where('products.status','=',2)
+                                ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "randomItem") {
             $name = "randomItem";
             $id = 0;
-            $product = ModelsProduct::join('product_organizations','products.sku', '=', 'product_organizations.sku')->join('product_media', 'products.sku', '=', 'product_media.sku')->where('products.status', 2)->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
+                                ->join('product_media','products.sku','=','product_media.sku')
+                                ->where('product_organizations.exclusive','=',$id)
+                                ->where('products.status','=',2)
+                                ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
             return response()->json(['success' => true, 'message' => 'Category data not found']);
         }
