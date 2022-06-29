@@ -189,12 +189,12 @@
                 <div class="card-body">
                     <div class="row mb-2">
                         <div class="col-4">
-                            <p class="fw-bolder">Harga Satuan <span class="badge bg-light">Wajib</span></p>
+                            <p class="fw-bolder">Harga Normal <span class="badge bg-light">Wajib</span></p>
                         </div>
                         <div class="col-8">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input placeholder="Masukkan Harga" type="text" name="price" class="form-control" id="rupiah_price" aria-describedby="basic-addon1" value="{{ $product->price }}"/>
+                                <input placeholder="Masukkan Harga" type="text" name="disc_price" class="form-control" id="rupiah_disc_price" aria-describedby="basic-addon1" value="{{ $product->disc_price }}"/>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                         <div class="col-8">
                             <div class="input-group mb-3">
                                 <span class="input-group-text" id="basic-addon1">Rp</span>
-                                <input placeholder="Masukkan Harga" type="text" name="disc_price" class="form-control" id="rupiah_disc_price" aria-describedby="basic-addon1" value="{{ $product->disc_price }}"/>
+                                <input placeholder="Masukkan Harga" type="text" name="price" class="form-control" id="rupiah_price" aria-describedby="basic-addon1" value="{{ $product->price }}"/>
                             </div>
                         </div>
                     </div>
