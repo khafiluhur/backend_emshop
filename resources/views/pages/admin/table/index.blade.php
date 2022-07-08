@@ -260,22 +260,6 @@ input:checked + .slider:before {
         </div>
         <!-- card-body end// -->
     </div>
-    <!-- card end// -->
-    {{-- <div class="pagination-area mt-30 mb-50"> --}}
-        {{-- {!! $product->links() !!} --}}
-        {{-- <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
-            </ul>
-        </nav>
-    </div> --}}
     @else
     <div class="card mb-4">
         <header class="card-header">
@@ -300,7 +284,7 @@ input:checked + .slider:before {
         </header>
         <!-- card-header end// -->
         <div class="card-body">
-            @foreach ($banner as $item)
+            @foreach ($banner as $key => $item)
                 <article class="itemlist">
                     <div class="row align-items-center">
                         <div class="col col-check flex-grow-0">
@@ -319,12 +303,16 @@ input:checked + .slider:before {
                             </a>
                         </div>
                         <div class="col-lg-2 col-sm-2 col-4 col-status">
-                            @if ($item->status == 1)
-                            <span class="badge rounded-pill alert-success">Active</span>
-                            @elseif ($item->status == 2)
-                            <span class="badge rounded-pill alert-danger">Disabled</span>
+                            @if($item['status'] == 1)
+                            <label class="switch">
+                                <input type="checkbox" class="toggle" onclick="toggleCheckboxBanner({{$key}})" data-value="{{{$item['slug']}}}" data-active="1">
+                                <span class="slider round"></span>
+                            </label>
                             @else
-                            <span class="badge rounded-pill alert-warning">Archived</span>
+                            <label class="switch">
+                                <input type="checkbox" class="toggle" onclick="toggleCheckboxBanner({{$key}})" data-value="{{{$item['slug']}}}" data-active="2" checked>
+                                <span class="slider round"></span>
+                            </label>
                             @endif
                         </div>
                         <div class="col-lg-1 col-sm-2 col-4 col-date">
@@ -342,28 +330,11 @@ input:checked + .slider:before {
         </div>
         <!-- card-body end// -->
     </div>
-    <!-- card end// -->
-    {{-- <div class="pagination-area mt-30 mb-50"> --}}
-        {{-- {!! $product->links() !!} --}}
-        {{-- <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-start">
-                <li class="page-item active"><a class="page-link" href="#">01</a></li>
-                <li class="page-item"><a class="page-link" href="#">02</a></li>
-                <li class="page-item"><a class="page-link" href="#">03</a></li>
-                <li class="page-item"><a class="page-link dot" href="#">...</a></li>
-                <li class="page-item"><a class="page-link" href="#">16</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
-            </ul>
-        </nav>
-    </div> --}}
     @endif
 </section>
 <script>
     function toggleCheckbox(key)
     {
-     
         var checkBox = document.getElementsByClassName("toggle")
         var parseHtml = Array.from(checkBox)
         var slug = parseHtml[key].dataset.value
@@ -384,6 +355,35 @@ input:checked + .slider:before {
         var site = "{{url('')}}"
         var xhr = new XMLHttpRequest()
         var url = site+"/api/product/toggle/"+slug+"?status="+active
+        xhr.open("GET", url, true)
+        xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA")
+        xhr.send()
+
+    }
+
+    function toggleCheckboxBanner(key)
+    {
+     
+        var checkBox = document.getElementsByClassName("toggle")
+        var parseHtml = Array.from(checkBox)
+        var slug = parseHtml[key].dataset.value
+        var active = parseHtml[key].dataset.active
+        var status = ''
+        if (active == 1){
+            status = 2
+            toggleStatusBanner(slug, status)
+        } else {
+            status = 1
+            toggleStatusBanner(slug, status)
+        }
+    }
+    
+    function toggleStatusBanner(slug, status)
+    {
+        var active = status
+        var site = "{{url('')}}"
+        var xhr = new XMLHttpRequest()
+        var url = site+"/api/banner/toggle/"+slug+"?status="+active
         xhr.open("GET", url, true)
         xhr.setRequestHeader("Authorization", "Bearer 1|3mTRZGnfTJ4wB0iX7LbAQbEKo6ZtQIbB56zxbNpA")
         xhr.send()
