@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/banner', [Banner::class, 'index']);
     Route::get('/page/{id}', [Banner::class, 'index']);
-    Route::get('/banner/toggle/{id}', [Product::class, 'updateActiveBanner']);
+    Route::get('/banner/toggle/{id}', [Banner::class, 'updateActiveBanner']);
 
     Route::get('/category', [Category::class, 'index']);
 
