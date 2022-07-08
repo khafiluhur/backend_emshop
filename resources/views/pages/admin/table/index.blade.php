@@ -231,12 +231,12 @@ input:checked + .slider:before {
                     <div class="col-lg-2 col-status text-center">
                         @if($item['status'] == 1)
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}}, {{ env('CODE', 'default') }})" data-value="{{{$item['slug']}}}" data-active="1">
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="1">
                             <span class="slider round"></span>
                         </label>
                         @else
                         <label class="switch">
-                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}}, {{ env('CODE', 'default') }})" data-value="{{{$item['slug']}}}" data-active="2" checked>
+                            <input type="checkbox" class="toggle" onclick="toggleCheckbox({{$key}})" data-value="{{{$item['slug']}}}" data-active="2" checked>
                             <span class="slider round"></span>
                         </label>
                         @endif
@@ -248,7 +248,7 @@ input:checked + .slider:before {
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                               <a class="dropdown-item" href="{{ url('/product/edit') }}/{{$item['slug']}}">Edit</a>
-                              <a class="dropdown-item" href="{{ url('/delete') }}/{{$item['slug']}}">Hapus</a>
+                              <a class="dropdown-item" href="{{ url('/product/delete') }}/{{$item['slug']}}">Hapus</a>
                             </div>
                           </div>
                     </div>
