@@ -24,4 +24,8 @@ class Dashboard extends Controller
         ];
         return view('pages.admin.edit', $data);
     }
+
+    public function phpinfo() {
+        return view('pages.phpinfo');
+    }
 }
