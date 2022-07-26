@@ -68,6 +68,7 @@ class Product extends Controller
         $data = [
             "name" => $category->name,
             "img" => $category->img,
+            "description" => $category->description,
             "data" => $product
         ];
 
@@ -83,6 +84,7 @@ class Product extends Controller
                                 ->join('product_media','products.sku','=','product_media.sku')
                                 ->where('product_organizations.exclusive','=',$id)
                                 ->where('products.status','=',2)
+                                ->orderBy('products.created_at','DESC')
                                 ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "newItem") {
             $name = "newItem";
@@ -91,6 +93,7 @@ class Product extends Controller
                                 ->join('product_media','products.sku','=','product_media.sku')
                                 ->where('product_organizations.exclusive','=',$id)
                                 ->where('products.status','=',2)
+                                ->orderBy('products.created_at','DESC')
                                 ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "randomItem") {
             $name = "randomItem";
@@ -99,6 +102,7 @@ class Product extends Controller
                                 ->join('product_media','products.sku','=','product_media.sku')
                                 ->where('product_organizations.exclusive','=',$id)
                                 ->where('products.status','=',2)
+                                ->orderBy('products.created_at','DESC')
                                 ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
             return response()->json(['success' => true, 'message' => 'Category data not found']);

@@ -46,7 +46,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('category')->group(function () {
         Route::get('/', [Category::class, 'index'])->name('category.index');
         Route::post('/', [Category::class, 'store'])->name('category.store');
+        Route::get('/create', [Category::class, 'create'])->name('category.create');
         Route::get('edit/{id}', [Category::class, 'edit'])->name('category.edit');
+        Route::post('edit/{id}', [Category::class, 'update'])->name('category.update');
         Route::get('delete/{id}', [Category::class, 'delete'])->name('category.delete');
     });
     

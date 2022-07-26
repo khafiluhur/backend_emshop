@@ -8,39 +8,13 @@
             <p>Tambah, ubah atau hapus kategori</p>
         </div>
         <div>
-            <input type="text" placeholder="Search Categories" class="form-control bg-white" />
+            <a href="{{ url('/category/create') }}" class="btn btn-primary btn-sm rounded-3">+ Tambah Kategori</a>
         </div>
     </div>
     <div class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        <div class="mb-4">
-                            <label for="product_name" class="form-label">Category name</label>
-                            <input type="text" placeholder="Category Name" name="name" class="form-control" id="product_name" />
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Icon</label>
-                            <div class="input-upload">
-                                <img id="icon" src="{{url('assets/imgs/theme/upload.svg')}}" alt="" />
-                                <input id="input-icon" class="form-control" name="icon" type="file" />
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label class="form-label">Image</label>
-                            <div class="input-upload">
-                                <img id="banner-category" src="{{url('assets/imgs/theme/upload.svg')}}" alt="" />
-                                <input id="input-banner" class="form-control" name="img" type="file" />
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">+ Tambah Kategori</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-hover">
                             <thead>
@@ -80,9 +54,8 @@
                                         <div class="dropdown">
                                             <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">View detail</a>
-                                                <a class="dropdown-item" href="#">Edit info</a>
-                                                <a class="dropdown-item text-danger" href="#">Delete</a>
+                                                <a class="dropdown-item" href="{{ route('category.edit', ['id' => $item->id]) }}">Edit info</a>
+                                                <a class="dropdown-item text-danger" href="{{ route('category.delete', ['id' => $item->id]) }}">Delete</a>
                                             </div>
                                         </div>
                                         <!-- dropdown //end -->

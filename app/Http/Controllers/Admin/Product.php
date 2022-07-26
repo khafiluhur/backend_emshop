@@ -284,24 +284,35 @@ class Product extends Controller
 
     public function delete($id) {
         $product = DB::table('products')
-                   ->where('products.slug',$id)
-                   ->delete();
-        $product_link = DB::table('product_links')
-                   ->where('products.slug',$id)
-                   ->delete();
-        $product =  ModelsProduct::findOrFail($id);
-        $product_link = ProductLink::findOrFail($id);
-        $product_media = ProductMedia::findOrFail($id);
-        $product_organization = ProductOrganization::findOrFail($id);
-        $product->delete();
-        $product_link->delete();
-        $product_media->delete();
-        $product_organization->delete();
+                    ->where('slug', $id)
+                    ->first();
+        DB::table('product_links')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('product_media')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('product_organizations')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('products')
+                    ->where('slug', $id)
+                    ->delete();
 
         return redirect()
             ->route('product.index')
             ->with([
                 'success' => 'Product has been created successfully delete'
             ]);
+    }
+
+    public function oracle() {
+        $datas = DB::connection('oracle')->select('select prd_id,prd_nm from (SELECT m.prd_id, m.prd_nm,sum(d.ord_cost) as disp_seq from prd_prd_m m inner join ord_ord_dtl_d d on m.prd_id = d.prd_id and m.prd_ptr_cd = :a inner join ord_ord_sts_chg_h h on d.ord_id = h.ord_id and d.ord_ptr_cd in (:b) and d.ord_seq = h.ord_seq and d.ord_sts_cd = :c and h.ord_dtl_sts_cd = :d and m.prd_nm not like :e and h.ord_sts_dtm between to_date(to_char(sysdate - 7, :f), :f) and to_date(to_char(sysdate - 1, :f), :f) + 0.99999 group by m.prd_id,m.prd_nm) order by disp_seq desc',['a' => '10', 'b' => '100', 'c' => '70', 'd' => '7010', 'e' => '%NC%', 'f' => 'YYYY-MM-DD']);
+        // $item = [];
+        // foreach($datas as $key => $data) {
+        //     $item[$key] = $data->prd_id;
+        // }
+        // dd(array_slice($item, 0, 5));
+        dd($datas);
     }
 }
