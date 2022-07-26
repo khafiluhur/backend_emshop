@@ -42,8 +42,8 @@
                         <p>Pilih foto produk atau tarik dan letakkan hingga 5 foto sekaligus di sini. Cantumkan min. 3 foto yang menarik agar produk semakin menarik pembeli.</p>
                     </div>
                     <div class="col-8">
-                        {{-- <img id="image-product" src="{{url('assets/imgs/theme/upload.svg')}}" alt="" /> --}}
                         <input id="input-product" class="form-control" name="img" type="file" />
+                        <img id="image-product" class="w-25" src="{{url('assets/imgs/theme/upload.svg')}}" alt="" />
                     </div>
                 </div>
             </div>

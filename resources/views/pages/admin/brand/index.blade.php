@@ -8,7 +8,7 @@
             <p>Merek dan manajemen vendor</p>
         </div>
         <div>
-            <a href="{{ url('/brand/create') }}" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Tambah Merek</a>
+            <a href="{{ url('/brand/create') }}" class="btn btn-primary">+ Tambah Merek</a>
         </div>
     </div>
     <div class="card mb-4">

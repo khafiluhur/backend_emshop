@@ -134,7 +134,7 @@ input:checked + .slider:before {
             @if ($slug == 'product')
             <a href="{{ url('/product/create') }}" class="btn btn-primary btn-sm rounded-3">+ Tambah Produk</a>
             @else
-            <a href="{{ url('/banner/create') }}" class="btn btn-primary btn-sm rounded-3">+ Tambah Produk</a>
+            <a href="{{ url('/banner/create') }}" class="btn btn-primary btn-sm rounded-3">+ Tambah Banner</a>
             @endif
         </div>
     </div>
