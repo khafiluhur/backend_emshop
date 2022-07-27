@@ -116,7 +116,7 @@ class Product extends Controller
                     ->get();
             }
 
-            return response()->json(['success' => true, 'message' => 'Data found', 'data' => $datas]);
+            // return response()->json(['success' => true, 'message' => 'Data found', 'data' => $datas]);
         }
 
         $data = [
