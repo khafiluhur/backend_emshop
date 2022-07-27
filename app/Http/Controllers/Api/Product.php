@@ -115,8 +115,15 @@ class Product extends Controller
                     ->join('product_media', 'products.sku','product_media.sku')
                     ->get();
             }
+            $total = count($product);
 
-            // return response()->json(['success' => true, 'message' => 'Data found', 'data' => $datas]);
+            $data = [
+                "name" => $name,
+                "total" => $total,
+                "data" => array_filter($product)
+            ];
+            
+            return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
         }
 
         $data = [
