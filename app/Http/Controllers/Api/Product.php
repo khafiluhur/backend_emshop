@@ -105,7 +105,21 @@ class Product extends Controller
                                 ->orderBy('products.created_at','DESC')
                                 ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } else {
-            return response()->json(['success' => true, 'message' => 'Category data not found']);
+            $datas = DB::connection('oracle')->select('select prd_id,prd_nm from (SELECT m.prd_id, m.prd_nm,sum(d.ord_cost) as disp_seq from prd_prd_m m inner join ord_ord_dtl_d d on m.prd_id = d.prd_id and m.prd_ptr_cd = :a inner join ord_ord_sts_chg_h h on d.ord_id = h.ord_id and d.ord_ptr_cd in (:b) and d.ord_seq = h.ord_seq and d.ord_sts_cd = :c and h.ord_dtl_sts_cd = :d and m.prd_nm not like :e and h.ord_sts_dtm between to_date(to_char(sysdate - 7, :f), :f) and to_date(to_char(sysdate - 1, :f), :f) + 0.99999 group by m.prd_id,m.prd_nm) order by disp_seq desc',['a' => '10', 'b' => '100', 'c' => '70', 'd' => '7010', 'e' => '%NC%', 'f' => 'YYYY-MM-DD']);
+            $item = [];
+            foreach($datas as $key => $data) {
+                $item[$key] = DB::table('products')
+                    ->where('products.sku', $data->prd_id)
+                    ->join('products_media', 'products.sku','product_media.sku')
+                    ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            }
+
+            $data = [
+                "name" => 'bestSellerOracle',
+                "data" => $item
+            ];
+
+            return response()->json(['success' => true, 'message' => 'Data found', 'data' => $data]);
         }
 
         $data = [
