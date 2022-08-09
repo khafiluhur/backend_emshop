@@ -84,6 +84,7 @@ class Product extends Controller
             $best_sellers = ModelsBestSeller::get();
             $product_best_sellers = [];
 	        $value_products = [];
+            $product_value = [];
             foreach($best_sellers as $key => $best_seller) {
                 $product_best_sellers[$key] = DB::table('products')
                     ->select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc')
