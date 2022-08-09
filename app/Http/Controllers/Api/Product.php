@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product as ModelsProduct;
+use App\Models\ProductBestSeller as ModelsBestSeller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -80,12 +81,33 @@ class Product extends Controller
         if($id == "bestSeller") {
             $name = "bestSeller";
             $id = 1;
-            $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
-                                ->join('product_media','products.sku','=','product_media.sku')
-                                ->where('product_organizations.exclusive','=',$id)
-                                ->where('products.status','=',2)
-                                ->orderBy('products.created_at','DESC')
-                                ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
+            $best_sellers = ModelsBestSeller::get();
+            $product_best_sellers = [];
+	        $value_products = [];
+            foreach($best_sellers as $key => $best_seller) {
+                $product_best_sellers[$key] = DB::table('products')
+                    ->select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc')
+                    ->where('products.sku', $best_seller->prd_id)
+                    ->where('products.status','=',2)
+                    ->join('product_media', 'products.sku','product_media.sku')
+                    ->get();
+            }
+            foreach($product_best_sellers as $key => $product_best_seller) {
+                if(count($product_best_seller) == 0) {
+                unset($product_best_sellers[$key]);
+                }	
+            }
+            foreach($product_best_sellers as $key => $product_best_seller) {
+                $value_products[$key] = $product_best_sellers;
+                $product_value[$key] = $value_products[$key][0];
+            }
+            $product = array_values($product_value);
+            // $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
+            //                     ->join('product_media','products.sku','=','product_media.sku')
+            //                     ->where('product_organizations.exclusive','=',$id)
+            //                     ->where('products.status','=',2)
+            //                     ->orderBy('products.created_at','DESC')
+            //                     ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "newItem") {
             $name = "newItem";
             $id = 2;
@@ -108,23 +130,24 @@ class Product extends Controller
             $name = "testItem";
             $datas = DB::connection('oracle')->select('select prd_id,prd_nm from (SELECT m.prd_id, m.prd_nm,sum(d.ord_cost) as disp_seq from prd_prd_m m inner join ord_ord_dtl_d d on m.prd_id = d.prd_id and m.prd_ptr_cd = :a inner join ord_ord_sts_chg_h h on d.ord_id = h.ord_id and d.ord_ptr_cd in (:b) and d.ord_seq = h.ord_seq and d.ord_sts_cd = :c and h.ord_dtl_sts_cd = :d and m.prd_nm not like :e and h.ord_sts_dtm between to_date(to_char(sysdate - 7, :f), :f) and to_date(to_char(sysdate - 1, :f), :f) + 0.99999 group by m.prd_id,m.prd_nm) order by disp_seq desc',['a' => '10', 'b' => '100', 'c' => '70', 'd' => '7010', 'e' => '%NC%', 'f' => 'YYYY-MM-DD']);
             $product = [];
-	    $test = [];
+	        $test = [];
             foreach($datas as $key => $data) {
                 $product[$key] = DB::table('products')
                     ->select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc')
                     ->where('products.sku', $data->prd_id)
+                    ->where('products.status','=',2)
                     ->join('product_media', 'products.sku','product_media.sku')
                     ->get();
             }
-	    foreach($product as $key => $products) {
-            	if(count($products) == 0) {
-                   unset($product[$key]);
-                }	
-	    }
-	    foreach($product as $key => $products) {
-	    	$test[$key] = $products;
-	    	$tost[$key] = $test[$key][0];
-	    }
+            foreach($product as $key => $products) {
+                    if(count($products) == 0) {
+                    unset($product[$key]);
+                    }	
+            }
+            foreach($product as $key => $products) {
+                $test[$key] = $products;
+                $tost[$key] = $test[$key][0];
+            }
             $total = count($product);
 
             $data = [
