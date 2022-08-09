@@ -82,24 +82,24 @@ class Product extends Controller
             $name = "bestSeller";
             $id = 1;
             $best_sellers = ModelsBestSeller::get();
-            $product_best_sellers = [];
-	        $value_products = [];
+            $product_bests = [];
+            $value_products = [];
             $product_value = [];
             foreach($best_sellers as $key => $best_seller) {
-                $product_best_sellers[$key] = DB::table('products')
+                $product_bests[$key] = DB::table('products')
                     ->select('products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc')
-                    ->where('products.sku', $best_seller->prd_id)
+                    ->where('products.sku','=',$best_seller['sku'])
                     ->where('products.status','=',2)
                     ->join('product_media', 'products.sku','product_media.sku')
                     ->get();
             }
-            foreach($product_best_sellers as $key => $product_best_seller) {
-                if(count($product_best_seller) == 0) {
-                unset($product_best_sellers[$key]);
+            foreach($product_bests as $key => $product_best) {
+                if(count($product_best) == 0) {
+                unset($product_bests[$key]);
                 }	
             }
-            foreach($product_best_sellers as $key => $product_best_seller) {
-                $value_products[$key] = $product_best_seller;
+            foreach($product_bests as $key => $product_best) {
+                $value_products[$key] = $product_best;
                 $product_value[$key] = $value_products[$key][0];
             }
             $product = array_values($product_value);
