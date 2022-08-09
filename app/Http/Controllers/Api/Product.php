@@ -98,7 +98,7 @@ class Product extends Controller
                 }	
             }
             foreach($product_best_sellers as $key => $product_best_seller) {
-                $value_products[$key] = $product_best_sellers;
+                $value_products[$key] = $product_best_seller;
                 $product_value[$key] = $value_products[$key][0];
             }
             $product = array_values($product_value);
