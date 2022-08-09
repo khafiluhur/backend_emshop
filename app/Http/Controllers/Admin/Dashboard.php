@@ -12,7 +12,6 @@ class Dashboard extends Controller
             'title' => 'Dashboard',
             'slug' => 'dashboard',
         ];
-        // dd(Auth::user());
         
         return view('pages.admin.index', $data);
     }

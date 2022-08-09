@@ -103,12 +103,6 @@ class Product extends Controller
                 $product_value[$key] = $value_products[$key][0];
             }
             $product = array_values($product_value);
-            // $product = ModelsProduct::join('product_organizations','products.sku','=','product_organizations.sku')
-            //                     ->join('product_media','products.sku','=','product_media.sku')
-            //                     ->where('product_organizations.exclusive','=',$id)
-            //                     ->where('products.status','=',2)
-            //                     ->orderBy('products.created_at','DESC')
-            //                     ->get(['products.id', 'products.slug', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc']);
         } elseif ($id == "newItem") {
             $name = "newItem";
             $id = 2;

@@ -305,44 +305,4 @@ class Product extends Controller
                 'success' => 'Product has been created successfully delete'
             ]);
     }
-
-    public function oracle() {
-        $datas = DB::connection('oracle')->select('select prd_id,prd_nm from (SELECT m.prd_id, m.prd_nm,sum(d.ord_cost) as disp_seq from prd_prd_m m inner join ord_ord_dtl_d d on m.prd_id = d.prd_id and m.prd_ptr_cd = :a inner join ord_ord_sts_chg_h h on d.ord_id = h.ord_id and d.ord_ptr_cd in (:b) and d.ord_seq = h.ord_seq and d.ord_sts_cd = :c and h.ord_dtl_sts_cd = :d and m.prd_nm not like :e and h.ord_sts_dtm between to_date(to_char(sysdate - 7, :f), :f) and to_date(to_char(sysdate - 1, :f), :f) + 0.99999 group by m.prd_id,m.prd_nm) order by disp_seq desc',['a' => '10', 'b' => '100', 'c' => '70', 'd' => '7010', 'e' => '%NC%', 'f' => 'YYYY-MM-DD']);
-        $item = [];
-	$test = [];
-        foreach($datas as $key => $data) {
-            //  $item[$key] = $data->prd_id;
-	   $item[$key] = DB::table('products')->select('*')->where('products.sku', $data->prd_id)->get();
-	   // $result = array_filter($item[$key], function ($value) {
-           //	return !is_null($value);
-    	   // });
-
-	   //if (count($result) == 0) {
-           // 	unset($data[$index]);
-    	   // }
-	
-	   // $item[$key] = DB::table('products')->select('*')->where('products.sku', $data->prd_id)->get();
-	   // if($item[$key] == null) {
-	   //	$test[$key] = "tost"
-	   // } else {
-	   //	$
-	   // }
-        }
-	$test = [];
-	foreach($item as $key => $items) {
-	  // $test = $item;
-	  // $result = array_filter($items, function($value) {
-	  //	retrun is_null($value);
-	  // });
-	
-	  if(count($items) == 0) {
-	  	unset($item[$key]);
-	  }
-	}
-	foreach($item as $key => $items) {
-	     $test[$key] = $items[$key];
-	}
-       //  dd(array_slice($item, 0, 5));
-        dd(array_values($test));
-    }
 }
