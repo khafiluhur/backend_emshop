@@ -14,17 +14,17 @@ class Brand extends Controller
     public function index() {
 
         $data = [
-            'title' => 'Brand List',
+            'title' => 'Daftar Merek',
             'slug' => 'brand',
             'category' => Category::orderBy('name', 'ASC')->get(),
-            'brand' => ModelsBrand::orderBy('name', 'ASC')->get()
+            'brand' => ModelsBrand::orderBy('name', 'ASC')->get(['brands.name', 'brands.img', 'brands.slug'])
         ];
         return view('pages.admin.brand.index', $data);
     }
 
     public function create() {
         $data = [
-            'title' => 'Add New Brand',
+            'title' => 'Tambah Merek',
             'slug' => 'brand',
             'category' => Category::orderBy('name', 'ASC')->get(),
         ];
@@ -32,7 +32,6 @@ class Brand extends Controller
     }
 
     public function store(Request $request) {
-        // dd($request);
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'img' => 'required',

@@ -10,32 +10,65 @@ use App\Models\ProductLink;
 use App\Models\ProductMedia;
 use App\Models\ProductOrganization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Env;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+Use \Carbon\Carbon;
 
 class Product extends Controller
 {
     //
     public function index() {
 
-        $product = ModelsProduct::join('product_media', 'products.sku', '=', 'product_media.sku')->orderBy('products.name', 'ASC')->get(['products.*', 'product_media.img']);
+        $items = [];
+        $products = DB::table('products')
+                   ->select('product_media.id', 'product_media.img', 'products.name', 'products.price', 'products.disc_price', 'products.disc', 'products.status', 'products.sku', 'products.slug', 'products.created_at', 'products.updated_at', 'product_view.aladin_mall', 'product_view.tokopedia', 'product_view.shopee', 'product_view.lazada', 'product_view.blibli', 'product_view.bukalapak')
+                   ->join('product_media', 'products.sku', '=', 'product_media.sku')
+                   ->leftJoin('product_view', 'products.slug', '=', 'product_view.slug')
+                   ->orderBy('products.created_at', 'DESC')
+                   ->get();
+
+        foreach($products as $key => $product) {
+            $items[$key] = array(
+                "img" => $products[$key]->img,
+                "name" => $products[$key]->name,
+                "price" => $products[$key]->price,
+                "disc_price" => $products[$key]->disc_price,
+                "disc" => $products[$key]->disc,
+                "status" => $products[$key]->status,
+                "sku" => $products[$key]->sku,
+                "slug" => $products[$key]->slug,
+                "id" => $products[$key]->id,
+                "aladin_mall" => $products[$key]->aladin_mall,
+                "tokopedia" => $products[$key]->tokopedia,
+                "shopee" => $products[$key]->shopee,
+                "lazada" => $products[$key]->lazada,
+                "blibli" => $products[$key]->blibli,
+                "bukalapak" => $products[$key]->bukalapak,
+                "total_view" => $products[$key]->aladin_mall + $products[$key]->tokopedia + $products[$key]->shopee + $products[$key]->lazada + $products[$key]->blibli + $products[$key]->bukalapak,
+                "created_at" => $products[$key]->created_at,
+                "updated_at" => $products[$key]->updated_at,
+            );
+        }
 
         $data = [
-            'title' => 'Product List',
+            'title' => 'Daftar Produk',
             'slug' => 'product',
-            'category' => Category::orderBy('name', 'ASC')->get(),
-            'product' => $product
+            'category' => Category::orderBy('created_at', 'DESC')->get(),
+            'product' => $items
         ];
+
         return view('pages.admin.table.index', $data);
     }
 
     public function create() {
+        $generate_code = rand(0,99999);
+
         $data = [
-            'title' => 'Add New Product',
+            'title' => 'Tambah Produk',
             'slug' => 'product',
             'category' => Category::orderBy('name', 'ASC')->get(),
-            'brand' => Brand::orderBy('name', 'ASC')->get()
+            'brand' => Brand::orderBy('name', 'ASC')->get(),
+            'code' => $generate_code
         ];
         return view('pages.admin.table.create', $data);
     }
@@ -43,7 +76,7 @@ class Product extends Controller
     public function store(Request $request) {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'sku' => 'required',
+            'sku' => 'required|unique:products',
             'short_desc' => 'required',
             'price' => 'required',
             'disc_price' => 'required',
@@ -51,10 +84,17 @@ class Product extends Controller
             'img' => 'required',
             'brand' => 'required',
             'category' => 'required',
-            'exclusive' => 'required'
+            'exclusive' => 'required',
+        ],[
+          'name.required' => 'Nama produk harus diisi',  
+          'sku.required' => 'SKU produk harus diisi', 
+          'short_desc.required' => 'Deskripsi produk harus diisi',
+          'price.required' => 'Harga produk harus diisi',
+          'disc_price.required' => 'Harga diskon produk harus diisi',
+          'disc.required' => 'Diskon produk harus diisi',
+          'img.required' => 'Gambar produk harus diisi',
+          'brand.required' => 'Brand produk harus '
         ]);
-
-        
 
         $product = ModelsProduct::create([
             'name' => $request->name,
@@ -65,6 +105,7 @@ class Product extends Controller
             'disc_price' => $request->disc_price,
             'disc' => $request->disc,
             'status' => 2,
+            'created_at' => Carbon::now()
         ]);
 
         if($request->aladin_mall == null) {
@@ -111,21 +152,24 @@ class Product extends Controller
             'lazada' => $lazada,
             'blibli' => $blibli,
             'bukalapak' => $bukalapak,
+            'created_at' => Carbon::now()
         ]);
 
         $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
-        $request->file('img')->move(env('APP_ASSET').'/assets/imgs/products', $img_product);
+        $request->file('img')->move('assets/imgs/products', $img_product);
 
         $product_media = ProductMedia::create([
             'sku' => $request->sku,
             'img' => $img_product,
+            'created_at' => Carbon::now()
         ]);
 
         $product_organization = ProductOrganization::create([
             'sku' => $request->sku,
             'brand' => $request->brand,
             'category' => $request->category,
-            'exclusive' => $request->exclusive
+            'exclusive' => $request->exclusive,
+            'created_at' => Carbon::now()
         ]);
 
         if ($product && $product_link && $product_media && $product_organization) {
@@ -143,17 +187,17 @@ class Product extends Controller
         }
     }
 
-    public function edit($id) {
-
+    public function edit($id) 
+    {
         $product = DB::table('products')
-                   ->join('product_organizations', 'products.sku', '=', 'product_organizations.sku')
                    ->join('product_media', 'products.sku', '=', 'product_media.sku')
                    ->join('product_links', 'products.sku', '=', 'product_links.sku')
-                   ->where('products.name',$id)
+                   ->join('product_organizations', 'products.sku', '=', 'product_organizations.sku')
+                   ->where('products.slug',$id)
                    ->first();
-                   
+
         $data = [
-            'title' => 'Edit Product',
+            'title' => 'Ubah Produk',
             'slug' => 'product',
             'product' => $product,
             'category' => Category::orderBy('name', 'ASC')->get(),
@@ -162,30 +206,103 @@ class Product extends Controller
         return view('pages.admin.table.edit', $data);
     }
 
-    public function update(Request $request, $id) {
-        // $product =  DB::table('products')->where('products.sku',$id)->first();
-        // $product_link = DB::table('product_links')->where('product_links.sku',$id)->first();
-        // $product_media = DB::table('product_media')->where('product_media.sku',$id)->first();
-        // $product_organizations = DB::table('product_organizations')->where('product_organizations.sku',$id)->first();
+    public function update(Request $request, $id) 
+    {
+        $products = DB::table('products')
+                ->select('*')
+                ->where('products.slug', $id)
+                ->first();
 
-        // DB::table('products')->where('products.sku', $id)->update([
-        //     'name' => $request->name,
-        //     'sku' => $request->sku,
-        //     'slug' => Str::slug($request->name),
-        //     'short_desc' => $request->short_desc,
-        //     'price' => $request->price,
-        //     'disc_price' => $request->disc_price,
-        //     'disc' => $request->disc,
-        //     'status' => $request->status,
-        // ])
-        // $product = ;
-        // dd($product);
+        $sku = $products->sku;
+        
+        DB::table('products')->where('id', $products->id)->update([
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'slug' => Str::slug($request->name),
+            'short_desc' => $request->short_desc,
+            'price' => $request->price,
+            'disc_price' => $request->disc_price,
+            'disc' => $request->disc,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $product_links = DB::table('product_links')
+                ->select('*')
+                ->where('product_links.sku', $sku)
+                ->first();
+
+        DB::table('product_links')->where('id', $product_links->id)->update([
+            'sku' => $request->sku,
+            'aladin_mall' => $request->aladin_mall,
+            'tokopedia' => $request->tokopedia,
+            'shopee' => $request->shopee,
+            'lazada' => $request->lazada,
+            'blibli' => $request->blibli,
+            'bukalapak' => $request->bukalapak,
+            'updated_at' => Carbon::now()
+        ]);
+
+        $product_medias = DB::table('product_media')
+                ->select('*')
+                ->where('product_media.sku', $sku)
+                ->first();
+        
+        DB::table('product_media')->where('id', $product_medias->id)->update([
+            'sku' => $request->sku,
+        ]);
+
+        if($request->file('img') != null) {
+            $img_product = Str::slug($request->name).'.'.$request->file('img')->extension();
+            $request->file('img')->move('assets/imgs/products', $img_product);
+
+            DB::table('product_media')->where('id', $product_medias->id)->update([
+                'img' => $img_product,
+            ]);
+        }
+
+        $product_organizations = DB::table('product_organizations')
+                ->select('*')
+                ->where('product_organizations.sku', $sku)
+                ->first();
+    
+
+        DB::table('product_organizations')->where('id', $product_organizations->id)->update([
+            'sku' => $request->sku,
+            'brand' => $request->brand,
+            'category' => $request->category,
+            'exclusive' => $request->exclusive,
+            'updated_at' => Carbon::now()
+        ]);
+
+        return redirect()
+        ->route('product.index')
+        ->with([
+            'success' => 'Product has been edit successfully'
+        ]);
+
     }
 
-    public function delete(Request $request, $id) {
-        $product =  ModelsProduct::findOrFail($id);
-        $product_link = ProductLink::findOrFail($id);
-        $product_media = ProductMedia::findOrFail($id);
-        $product_organization = ProductOrganization::findOrFail($id);
+    public function delete($id) {
+        $product = DB::table('products')
+                    ->where('slug', $id)
+                    ->first();
+        DB::table('product_links')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('product_media')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('product_organizations')
+                    ->where('sku', $product->sku)
+                    ->delete();
+        DB::table('products')
+                    ->where('slug', $id)
+                    ->delete();
+
+        return redirect()
+            ->route('product.index')
+            ->with([
+                'success' => 'Product has been created successfully delete'
+            ]);
     }
 }

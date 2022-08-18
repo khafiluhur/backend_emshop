@@ -4,11 +4,11 @@
 <section class="content-main">
     <div class="content-header">
         <div>
-            <h2 class="content-title card-title">Brand</h2>
-            <p>Brand and vendor management</p>
+            <h3 class="content-title card-title">Daftar Merek</h3>
+            <p>Merek dan manajemen vendor</p>
         </div>
         <div>
-            <a href="{{ url('/brand/create') }}" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Add New Brand</a>
+            <a href="{{ url('/brand/create') }}" class="btn btn-primary">+ Tambah Merek</a>
         </div>
     </div>
     <div class="card mb-4">
@@ -40,7 +40,7 @@
                         </div>
                         <figcaption class="card-body text-center">
                             <h6 class="card-title m-0">{{ $item->name }}</h6>
-                            <a class="" href="#"> 398 items </a>
+                            {{-- <a class="" href="#"> 398 items </a> --}}
                         </figcaption>
                     </figure>
                 </div>

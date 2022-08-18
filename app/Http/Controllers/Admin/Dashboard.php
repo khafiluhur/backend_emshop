@@ -12,7 +12,6 @@ class Dashboard extends Controller
             'title' => 'Dashboard',
             'slug' => 'dashboard',
         ];
-        // dd(Auth::user());
         
         return view('pages.admin.index', $data);
     }
@@ -23,5 +22,9 @@ class Dashboard extends Controller
             'slug' => 'dashboard',
         ];
         return view('pages.admin.edit', $data);
+    }
+
+    public function phpinfo() {
+        return view('pages.phpinfo');
     }
 }

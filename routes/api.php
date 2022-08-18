@@ -26,13 +26,20 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/profile', function(Request $request) {
         return auth()->user();
     });
+
+    Route::get('/product/search', [Product::class, 'searchProduct']);
+
     Route::get('/product', [Product::class, 'index']);
     Route::get('/product/{id}', [Product::class, 'detail']);
     Route::get('/product/category/{id}', [Product::class, 'category']);
     Route::get('/product/exclusive/{id}', [Product::class, 'exclusive']);
+    Route::get('/product/toggle/{id}', [Product::class, 'updateActiveProduct']);
+    Route::get('/product/click/{id}', [Product::class, 'countEcommerceProduct']);
+    Route::get('/product/view/{id}', [Product::class, 'viewEcommerceProduct']);
 
     Route::get('/banner', [Banner::class, 'index']);
     Route::get('/page/{id}', [Banner::class, 'index']);
+    Route::get('/banner/toggle/{id}', [Banner::class, 'updateActiveBanner']);
 
     Route::get('/category', [Category::class, 'index']);
 

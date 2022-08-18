@@ -17,6 +17,7 @@ class CreateProductMediaTable extends Migration
             $table->id();
             $table->string('sku');
             $table->string('img');
+            $table->string('code')->nullable();
             $table->timestamps();
         });
     }
